@@ -31,3 +31,7 @@ add_subdirectory(RazerGenie/src/libopenrazer)
 # end of copy
 
 # actual stuff begins here
+include_directories(RazerGenie/src/libopenrazer)
+
+add_executable(dimitrid src/main.cpp)
+target_link_libraries(dimitrid openrazer)
