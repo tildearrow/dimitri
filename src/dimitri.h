@@ -2,6 +2,7 @@
 #define _DIMITRI_H
 #include <stdio.h>
 #include <stdarg.h>
+#include <math.h>
 #include <vector>
 #include <string>
 #include <linux/input-event-codes.h>
@@ -34,6 +35,16 @@ template<typename T> struct Color {
 
 template<typename T> struct AlphaColor {
   T r, g, b, a;
+};
+
+class SimpleEffect {
+  protected:
+    string name;
+  public:
+    virtual std::vector<string> getParamNames()=0;
+    virtual string getParam(string name)=0;
+    virtual bool setParam(string name, string value)=0;
+    virtual bool render(int width, int height, Color<float> where[256][256])=0;
 };
 
 class Device {
