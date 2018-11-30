@@ -4,9 +4,10 @@
 #include <stdarg.h>
 #include <math.h>
 #include <stdexcept>
-#include <vector>
 #include <string>
-#include <linux/input-event-codes.h>
+#include <vector>
+#include <queue>
+#include <linux/input.h>
 
 #define LOGLEVEL_ERROR 0
 #define LOGLEVEL_WARN 1
@@ -56,6 +57,7 @@ class SimpleEffect {
   protected:
     string name;
   public:
+    std::queue<struct input_event> inQueue;
     virtual std::vector<string> getParamNames()=0;
     virtual string getParam(string name)=0;
     virtual bool setParam(string name, string value)=0;
