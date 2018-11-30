@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdarg.h>
 #include <math.h>
+#include <stdexcept>
 #include <vector>
 #include <string>
 #include <linux/input-event-codes.h>
@@ -23,6 +24,18 @@ int dimLogI(const char* format, ...);
 int dimLogW(const char* format, ...);
 int dimLogE(const char* format, ...);
 
+bool operator ==(const struct timespec& l, const struct timespec& r);
+bool operator >(const struct timespec& l, const struct timespec& r);
+bool operator <(const struct timespec& l, const struct timespec& r);
+struct timespec operator +(const struct timespec& l, const struct timespec& r);
+struct timespec operator -(const struct timespec& l, const struct timespec& r);
+struct timespec operator +(const struct timespec& l, const long& r);
+struct timespec operator -(const struct timespec& l, const long& r);
+struct timespec mkts(time_t sec, long nsec);
+struct timespec stots(string s);
+string tstos(struct timespec ts);
+struct timespec curTime(clockid_t clockSource);
+
 template<typename T> struct Coords {
   T x, y;
   Coords(T xv, T yv): x(xv), y(yv) {}
@@ -31,6 +44,8 @@ template<typename T> struct Coords {
 
 template<typename T> struct Color {
   T r, g, b;
+  Color(T red, T green, T blue): r(red), g(green), b(blue) {}
+  Color(): r(0), g(0), b(0) {}
 };
 
 template<typename T> struct AlphaColor {

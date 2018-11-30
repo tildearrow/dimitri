@@ -36,9 +36,11 @@ include_directories(RazerGenie/src/libopenrazer)
 add_executable(dimitrid
 src/devices/razer.cpp
 
+src/effects/static.cpp
 src/effects/spectrum.cpp
 src/effects/wave.cpp
 
 src/log.cpp
+src/time.cpp
 src/main.cpp)
 target_link_libraries(dimitrid openrazer)

@@ -15,7 +15,7 @@ bool SpectrumEffect::setParam(string name, string value) {
 // TODO: fix red offset
 bool SpectrumEffect::render(int width, int height, Color<float> where[256][256]) {
   Color<float> c;
-  pos+=0.0003;
+  pos+=0.0005;
   pos-=(int)pos;
   c.r=fmax(0.05,fmin(fmax(fabs(2.0-pos*6+1.0)-1.0,0.0),1.0));
   c.g=fmax(0.05,(1.0-fmin(fmax(fabs(1.0-pos*6.0+1.0)-1.0,0.0),1.0)));
