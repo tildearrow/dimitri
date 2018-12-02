@@ -8,6 +8,7 @@
 #include <vector>
 #include <queue>
 #include <linux/input.h>
+#include <X11/Xlib.h>
 
 #define LOGLEVEL_ERROR 0
 #define LOGLEVEL_WARN 1
@@ -53,6 +54,16 @@ template<typename T> struct AlphaColor {
   T r, g, b, a;
 };
 
+class InputWatch {
+  pthread_t thread;
+  Display* disp;
+  public:
+    void run();
+    bool start();
+    bool stop();
+    InputWatch(): thread(-1) {}
+};
+
 class SimpleEffect {
   protected:
     string name;
@@ -66,6 +77,9 @@ class SimpleEffect {
 
 class Device {
   protected:
+    SimpleEffect* prevEffect;
+    SimpleEffect* effect;
+    float transition;
     string id;
     string name;
     int width, height;
@@ -76,6 +90,7 @@ class Device {
     virtual Coords<int> getCoordsFromKeycode(short keycode)=0;
     virtual short getKeycodeFromCoords(Coords<int> c)=0;
     virtual void clearMatrix()=0;
+    void processSimple();
     virtual bool uploadMatrix()=0;
     int matrixWidth() {return width;}
     int matrixHeight() {return height;}

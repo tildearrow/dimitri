@@ -1,7 +1,12 @@
+#include "libopenrazer.h"
+#include <QColor>
+#include <QDebug>
+#include <qmetatype.h>
+#define _LOR_DEVICE
 #include "razer.h"
 
-void RazerDevice::setORDevice(libopenrazer::Device& ptr) {
-  inst=new libopenrazer::Device(ptr);
+void RazerDevice::setORDevice(libopenrazer::Device* ptr) {
+  inst=new libopenrazer::Device(*ptr);
 }
 
 void RazerDevice::clearMatrix() {
@@ -34,6 +39,7 @@ bool RazerDevice::uploadMatrix() {
     inst->setKeyRow(j,0,width-1,colors);
   }
   if (!inst->setCustom()) dimLogE("failure\n");
+  libopenrazer::getTurnOffOnScreensaver();
   return true;
 }
 
@@ -46,7 +52,7 @@ std::vector<Device*> RazerDeviceEnum::enumerate() {
     libopenrazer::Device dev=libopenrazer::Device(i);
     if (!dev.hasMatrix()) break;
     add=new RazerDevice;
-    add->setORDevice(dev);
+    add->setORDevice(&dev);
     ret.push_back(add);
   }
   return ret;

@@ -8,6 +8,7 @@ int dimLogD(const char* format, ...) {
   va_start(va,format);
   ret=vprintf(format,va);
   va_end(va);
+  fflush(stdout);
   return ret;
 }
 

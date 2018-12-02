@@ -12,11 +12,9 @@ std::vector<Device*> dev;
 
 RazerDeviceEnum rzDE;
 
-//StaticEffect se;
-//SpectrumEffect se;
-WaveEffect se;
-
 struct timespec nextTime;
+
+InputWatch inWatch;
 
 void sleepUntilNext() {
   struct timespec t, rem;
@@ -40,11 +38,14 @@ int main(int argc, char** argv) {
     i->init();
   }
   dimLogI("%d devices.\n",dev.size());
+  inWatch.start();
   while (1) {
     dimLogD("frame %d\n",frame);
+    int i=0;
     for (auto& h: dev) {
-      se.render(h->matrixWidth(),h->matrixHeight(),h->matrix);
+      h->processSimple();
       h->uploadMatrix();
+      i++;
     }
     frame++;
     sleepUntilNext();

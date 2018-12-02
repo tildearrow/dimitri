@@ -11,5 +11,5 @@ class WaveEffect: public SimpleEffect {
     string getParam(string name);
     bool setParam(string name, string value);
     bool render(int width, int height, Color<float> where[256][256]);
-    WaveEffect(): pos(0), direction(Down) {};
+    WaveEffect(): pos(0), direction(Right) {};
 };
