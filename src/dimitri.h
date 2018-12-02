@@ -2,6 +2,7 @@
 #define _DIMITRI_H
 #include <stdio.h>
 #include <stdarg.h>
+#include <string.h>
 #include <math.h>
 #include <stdexcept>
 #include <string>
@@ -9,6 +10,7 @@
 #include <queue>
 #include <linux/input.h>
 #include <X11/Xlib.h>
+#include <X11/keysym.h>
 
 #define LOGLEVEL_ERROR 0
 #define LOGLEVEL_WARN 1
@@ -57,6 +59,7 @@ template<typename T> struct AlphaColor {
 class InputWatch {
   pthread_t thread;
   Display* disp;
+  Window rootw;
   public:
     void run();
     bool start();
@@ -84,6 +87,8 @@ class Device {
     string name;
     int width, height;
     Coords<int> keypos[KEY_CNT];
+    Color<float> tempMatrix1[256][256];
+    Color<float> tempMatrix2[256][256];
   public:
     // should be enough to contain most devices
     Color<float> matrix[256][256];
@@ -95,6 +100,8 @@ class Device {
     int matrixWidth() {return width;}
     int matrixHeight() {return height;}
     virtual bool init()=0;
+    bool initSimple();
+    bool changeEffect(SimpleEffect* to);
     virtual bool quit()=0;
 };
 
